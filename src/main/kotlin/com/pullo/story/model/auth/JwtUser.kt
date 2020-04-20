@@ -5,9 +5,6 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
-/**
- * Created by echisan on 2018/6/23
- */
 class JwtUser : UserDetails {
     var id: Int? = null
     private var username: String? = null

@@ -6,9 +6,6 @@ import io.jsonwebtoken.SignatureAlgorithm
 import java.util.Date
 import java.util.HashMap
 
-/**
- * Created by echisan on 2018/6/23
- */
 object JwtTokenUtils {
     const val TOKEN_HEADER = "Authorization"
     const val TOKEN_PREFIX = "Bearer "
@@ -36,25 +33,29 @@ object JwtTokenUtils {
             .compact()
     }
 
-    // 从token中获取用户名
+    /**
+     * 从token中获取用户名
+      */
     fun getUsername(token: String): String {
         return getTokenBody(token).subject
     }
 
-    // 获取用户角色
+    /**
+     * 获取用户角色
+      */
     fun getUserRole(token: String): String {
         return getTokenBody(token)[ROLE_CLAIMS] as String
     }
 
     // 是否已过期
     fun isExpiration(token: String): Boolean {
-        return getTokenBody(token).getExpiration().before(Date())
+        return getTokenBody(token).expiration.before(Date())
     }
 
     private fun getTokenBody(token: String): Claims {
         return Jwts.parser()
             .setSigningKey(SECRET)
             .parseClaimsJws(token)
-            .getBody()
+            .body
     }
 }

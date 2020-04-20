@@ -1,10 +1,10 @@
 package com.pullo.story.filter
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.pullo.story.model.User
 import com.pullo.story.model.auth.JwtUser
 import com.pullo.story.util.JwtTokenUtils
 import com.pullo.story.util.JwtTokenUtils.createToken
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.pullo.story.model.User
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
@@ -50,8 +50,10 @@ class JWTAuthenticationFilter(authenticationManager: AuthenticationManager) :
         }
     }
 
-    // 成功验证后调用的方法
-// 如果验证成功，就生成token并返回
+    /**
+     * 成功验证后调用的方法
+     * 如果验证成功，就生成token并返回
+     */
     @Throws(IOException::class, ServletException::class)
     override fun successfulAuthentication(
         request: HttpServletRequest,
@@ -69,9 +71,9 @@ class JWTAuthenticationFilter(authenticationManager: AuthenticationManager) :
         }
         val token = createToken(jwtUser.username, role, isRemember)
         //        String token = JwtTokenUtils.createToken(jwtUser.getUsername(), false);
-// 返回创建成功的token
-// 但是这里创建的token只是单纯的token
-// 按照jwt的规定，最后请求的时候应该是 `Bearer token`
+        // 返回创建成功的token
+        // 但是这里创建的token只是单纯的token
+        // 按照jwt的规定，最后请求的时候应该是 `Bearer token`
         response.setHeader("token", JwtTokenUtils.TOKEN_PREFIX + token)
     }
 
