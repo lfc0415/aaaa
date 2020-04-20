@@ -14,7 +14,7 @@ import javax.servlet.ServletException
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-class JWTAuthorizationFilter(authenticationManager: AuthenticationManager?) :
+class JWTAuthorizationFilter(authenticationManager: AuthenticationManager) :
     BasicAuthenticationFilter(authenticationManager) {
     @Throws(IOException::class, ServletException::class)
     override fun doFilterInternal(
@@ -35,7 +35,7 @@ class JWTAuthorizationFilter(authenticationManager: AuthenticationManager?) :
 
     /**
      * 这里从token中获取用户信息并新建一个token
-      */
+     */
     private fun getAuthentication(tokenHeader: String): UsernamePasswordAuthenticationToken? {
         val token = tokenHeader.replace(JwtTokenUtils.TOKEN_PREFIX, "")
         val username = getUsername(token)

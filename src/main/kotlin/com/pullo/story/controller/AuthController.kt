@@ -23,8 +23,10 @@ class AuthController(
         val user = User().apply {
             BeanUtils.copyProperties(userVO, this)
         }
-        userMapper.getUserByAccount(userVO.account)
-            ?: throw PulloError.INVALID_ARGUMENT.errorCode("user.already_exist").toPulloRuntimeException()
+        val dbUser = userMapper.getUserByAccount(userVO.account)
+        if (dbUser != null) {
+            throw PulloError.INVALID_ARGUMENT.errorCode("user.already_exist").toPulloRuntimeException()
+        }
         user.password = bCryptPasswordEncoder.encode(userVO.password)
         user.role = "COMMON"
         userMapper.insert(user)
