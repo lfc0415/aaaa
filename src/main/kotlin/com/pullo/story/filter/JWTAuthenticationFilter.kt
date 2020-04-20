@@ -17,9 +17,9 @@ import javax.servlet.ServletException
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-class JWTAuthenticationFilter(authenticationManager: AuthenticationManager) :
-    UsernamePasswordAuthenticationFilter() {
-    private val rememberMe = ThreadLocal<Int>()
+class JWTAuthenticationFilter(authenticationManager: AuthenticationManager) : UsernamePasswordAuthenticationFilter() {
+    private val rememberMeThreadLocal = ThreadLocal<Int>()
+    private val _authenticationManager: AuthenticationManager = authenticationManager
 
     init {
         super.setFilterProcessesUrl("/auth/login")
@@ -32,15 +32,15 @@ class JWTAuthenticationFilter(authenticationManager: AuthenticationManager) :
     ): Authentication? {
         // 从输入流中获取到登录的信息
         return try {
-            val (_, username, password, _, rememberMe1) = ObjectMapper().readValue(
+            val user = ObjectMapper().readValue(
                 request.inputStream,
                 User::class.java
             )
-            rememberMe.set(rememberMe1)
-            authenticationManager.authenticate(
+            rememberMeThreadLocal.set(user.rememberMe)
+            _authenticationManager.authenticate(
                 UsernamePasswordAuthenticationToken(
-                    username,
-                    password,
+                    user.account,
+                    user.password,
                     ArrayList()
                 )
             )
@@ -63,7 +63,7 @@ class JWTAuthenticationFilter(authenticationManager: AuthenticationManager) :
     ) {
         val jwtUser = authResult.principal as JwtUser
         println("jwtUser:$jwtUser")
-        val isRemember = rememberMe.get() == 1
+        val isRemember = rememberMeThreadLocal.get() == 1
         var role = ""
         val authorities = jwtUser.authorities
         for (authority in authorities) {

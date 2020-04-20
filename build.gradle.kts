@@ -33,6 +33,7 @@ dependencies {
     implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.2")
     implementation("mysql:mysql-connector-java")
     implementation("io.jsonwebtoken:jjwt:0.9.0")
+    implementation("joda-time:joda-time")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")

@@ -1,12 +1,11 @@
-package com.pullo.story.model
+package com.pullo.story.model.vo
 
 import org.joda.time.DateTime
 
 /**
- * @author by liufucheng on 2020/4/15
+ * @author by liufucheng on 2020/4/20
  */
-class User {
-    var id: Int? = null
+class UserVO {
     var account: String = ""
     var username: String? = null
     var password: String = ""
@@ -15,9 +14,4 @@ class User {
     var gender: String? = null
     var birthDate: DateTime? = null
     var address: String? = null
-    var role: String = "COMMON"
-    var lastLogin: DateTime? = null
-    var createTime: DateTime? = null
-    var updateTime: DateTime? = null
-    var rememberMe: Int? = 0
 }
