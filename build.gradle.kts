@@ -20,13 +20,15 @@ configurations {
 
 repositories {
     mavenCentral()
-    maven ( url = "http://repos.saybot.net/repository/maven-public/")
+    maven(url = "http://maven.aliyun.com/nexus/content/groups/public/")
 }
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-freemarker")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-undertow")
+    implementation("org.springframework.boot:spring-boot-starter-log4j2")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -50,4 +52,16 @@ tasks.withType<KotlinCompile> {
         freeCompilerArgs = listOf("-Xjsr305=strict")
         jvmTarget = "1.8"
     }
+}
+
+configurations.forEach {
+    it.exclude(group = "org.eclipse.jetty.orbit", module = "javax.servlet")
+    it.exclude(module = "com.wordnik")
+    it.exclude(module = "org.mockito")
+    it.exclude(module = "junit")
+
+    it.exclude(module = "spring-boot-starter-tomcat")
+    it.exclude(module = "spring-boot-starter-logging")
+    it.exclude(module = "velocity-tools")
+    it.exclude(module = "jsonassert")
 }

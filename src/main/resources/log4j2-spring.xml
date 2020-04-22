@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+  <Properties>
+    <property name = "log.console.level">${bundle:application:log.console.level}</property>
+  </Properties>
+
+  <Appenders>
+    <Console name = "ConsoleAppender" target = "SYSTEM_OUT" follow = "true">
+      <PatternLayout pattern = "%d{yyyy-MM-dd HH:mm:ss.SSS} %p [%t] %c{1.} - %m%n%ex"/>
+      <ThresholdFilter level = "${log.console.level}" onMatch = "ACCEPT" onMismatch = "DENY"/>
+    </Console>
+
+    <RollingFile name = "FileAppender" fileName = "logs/story.log"
+                 filePattern = "logs/story.%d{yyyy-MM-dd_HH}.log">
+      <PatternLayout>
+        <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %p [%t] %c{1.} - %m%n%ex</Pattern>
+      </PatternLayout>
+      <Policies>
+        <TimeBasedTriggeringPolicy interval = "1"/>
+      </Policies>
+      <DefaultRolloverStrategy max = "360"/>
+    </RollingFile>
+  </Appenders>
+
+  <Loggers>
+    <Root level = "info">
+      <AppenderRef ref = "ConsoleAppender"/>
+      <AppenderRef ref = "FileAppender"/>
+    </Root>
+  </Loggers>
+</Configuration>
