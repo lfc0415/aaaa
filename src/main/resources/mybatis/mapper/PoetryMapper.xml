@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace = "com.pullo.story.mybatis.mapper.PoetryMapper">
+  <sql id = "column">
+    id, uuid, author, title, text, create_time, update_time
+  </sql>
+
+  <insert id = "insert" parameterType = "com.pullo.story.model.entity.Poetry">
+    insert into poetry
+    <trim prefix = "(" suffix = ")" suffixOverrides = ",">
+      <if test = "uuid != null">
+        uuid,
+      </if>
+      <if test = "author != null">
+        author,
+      </if>
+      <if test = "title != null">
+        title,
+      </if>
+      <if test = "text != null">
+        text,
+      </if>
+    </trim>
+    <trim prefix = "values (" suffix = ")" suffixOverrides = ",">
+      <if test = "uuid != null">
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test = "author != null">
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test = "title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test = "text != null">
+        #{text,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>
