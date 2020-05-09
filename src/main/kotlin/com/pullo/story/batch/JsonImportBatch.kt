@@ -6,8 +6,6 @@ import com.pullo.story.model.entity.Poetry
 import com.pullo.story.mybatis.mapper.PoetryMapper
 import com.pullo.story.util.FileHelper
 import org.apache.commons.io.FileUtils
-import org.apache.ibatis.session.ExecutorType
-import org.apache.ibatis.session.SqlSessionFactory
 import org.slf4j.LoggerFactory
 import org.springframework.beans.BeanUtils
 import org.springframework.stereotype.Component
@@ -18,9 +16,10 @@ import java.io.File
  */
 @Component
 class JsonImportBatch(
-    private val sqlSessionFactory: SqlSessionFactory
+    private val poetryMapper: PoetryMapper
 ) {
     val logger = LoggerFactory.getLogger(JsonImportBatch::class.java)
+    var count = 0
 
     fun getAllFiles(): List<File> {
         return FileHelper.getFilesByFolder("/Users/liufucheng/work/study/chinese-poetry/json")
@@ -30,30 +29,31 @@ class JsonImportBatch(
         val poetryList = mutableListOf<PoetryDTO>()
         getAllFiles().forEach {
             val jsonStr = FileUtils.readFileToString(it, "UTF-8")
-            val poetryDTOs = JsonConverter.deserializeList<PoetryDTO>(jsonStr)
-            if (!poetryDTOs.isNullOrEmpty()) {
-                poetryList.addAll(poetryDTOs)
+            try {
+                val poetryDTOs = JsonConverter.deserializeList<PoetryDTO>(jsonStr)
+                if (!poetryDTOs.isNullOrEmpty()) {
+                    poetryList.addAll(poetryDTOs)
+                }
+                write(poetryList)
+            } catch (e: Exception) {
+                logger.error("解析json文件出错！" + it.absolutePath)
+            } finally {
+                poetryList.clear()
             }
-            write(poetryList)
-            poetryList.clear()
         }
     }
 
     fun write(poetryList: List<PoetryDTO>) {
-        val sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH)
-        val poetryMapper = sqlSession.getMapper(PoetryMapper::class.java)
-        var count = 0
         poetryList.forEach {
-            logger.info("insert" + JsonConverter.serialize(it))
-            poetryMapper.insert(Poetry().apply {
-                BeanUtils.copyProperties(it, this)
-            })
-            count++
-            if (count > 1000) {
-                sqlSession.commit()
-                count = 0
+
+            try {
+                logger.info("insert" + count++ + "::" + JsonConverter.serialize(it))
+                poetryMapper.insert(Poetry().apply {
+                    BeanUtils.copyProperties(it, this)
+                })
+            } catch (e: Exception) {
+                logger.error("insert error ::" + JsonConverter.serialize(it))
             }
         }
-        sqlSession.commit()
     }
 }
