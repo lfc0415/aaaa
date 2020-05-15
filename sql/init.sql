@@ -17,3 +17,21 @@ CREATE TABLE user (
 )
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4 COMMENT = '用户表';
+
+CREATE TABLE `poem` (
+    `id`            INT(11)      NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+    `uuid`          VARCHAR(64)  NOT NULL COMMENT '诗歌ID',
+    `author`        VARCHAR(32)  NOT NULL COMMENT '作者',
+    `author_id`     VARCHAR(64)  NOT NULL DEFAULT '-1' COMMENT '作者ID',
+    `title`         VARCHAR(250) NOT NULL COMMENT '标题',
+    `like_count`    INT(11)      NOT NULL DEFAULT '0' COMMENT '点赞数',
+    `read_count`    INT(11)      NOT NULL DEFAULT '0' COMMENT '阅读数',
+    `collect_count` INT(11)      NOT NULL DEFAULT '0' COMMENT '收藏数',
+    `text`          TEXT         NOT NULL DEFAULT '' COMMENT '正文',
+    `create_time`   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '数据创建时间',
+    `update_time`   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '数据更新时间',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uk_poetry_uuid`(`uuid`)
+)
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4 COMMENT ='诗歌'

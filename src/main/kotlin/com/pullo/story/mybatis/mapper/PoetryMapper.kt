@@ -7,4 +7,8 @@ import com.pullo.story.model.entity.Poetry
  */
 interface PoetryMapper {
     fun insert(poetry: Poetry)
+
+    fun findByTitleOrAuthor(keyword: String?): List<Poetry>
+
+    fun findByUuid(uuid: String): Poetry
 }

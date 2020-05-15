@@ -48,6 +48,7 @@ class JsonImportBatch(
 
             try {
                 logger.info("insert" + count++ + "::" + JsonConverter.serialize(it))
+                //FIXME 批量报错，后续改成批量或者batch
                 poetryMapper.insert(Poetry().apply {
                     BeanUtils.copyProperties(it, this)
                 })

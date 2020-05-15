@@ -19,5 +19,5 @@ class User {
     var lastLogin: DateTime? = null
     var createTime: DateTime? = null
     var updateTime: DateTime? = null
-    var rememberMe: Int? = 0
+    var rememberMe: Int = 0
 }

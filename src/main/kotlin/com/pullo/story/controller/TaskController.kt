@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 /**
+ * Authorize test demo
+ *
  * @author liufucheng
  */
 @RestController

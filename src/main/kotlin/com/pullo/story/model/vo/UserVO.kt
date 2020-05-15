@@ -14,4 +14,5 @@ class UserVO {
     var gender: String? = null
     var birthDate: DateTime? = null
     var address: String? = null
+    var rememberMe: Int = 0
 }

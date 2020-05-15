@@ -19,7 +19,7 @@ class AuthController(
     private val userMapper: UserMapper
 ) {
     @PostMapping("/register")
-    fun registerUser(@RequestBody userVO: UserVO): String? {
+    fun registerUser(@RequestBody userVO: UserVO): String {
         val user = User().apply {
             BeanUtils.copyProperties(userVO, this)
         }

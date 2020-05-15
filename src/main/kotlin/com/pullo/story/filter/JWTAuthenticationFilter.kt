@@ -62,7 +62,6 @@ class JWTAuthenticationFilter(authenticationManager: AuthenticationManager) : Us
         authResult: Authentication
     ) {
         val jwtUser = authResult.principal as JwtUser
-        println("jwtUser:$jwtUser")
         val isRemember = rememberMeThreadLocal.get() == 1
         var role = ""
         val authorities = jwtUser.authorities
@@ -70,10 +69,6 @@ class JWTAuthenticationFilter(authenticationManager: AuthenticationManager) : Us
             role = authority!!.authority
         }
         val token = createToken(jwtUser.username, role, isRemember)
-        //        String token = JwtTokenUtils.createToken(jwtUser.getUsername(), false);
-        // 返回创建成功的token
-        // 但是这里创建的token只是单纯的token
-        // 按照jwt的规定，最后请求的时候应该是 `Bearer token`
         response.setHeader("token", JwtTokenUtils.TOKEN_PREFIX + token)
     }
 
@@ -84,9 +79,5 @@ class JWTAuthenticationFilter(authenticationManager: AuthenticationManager) : Us
         failed: AuthenticationException
     ) {
         response.writer.write("authentication failed, reason: " + failed.message)
-    }
-
-    init {
-        super.setFilterProcessesUrl("/auth/login")
     }
 }
