@@ -18,7 +18,6 @@ class PoetryController(
 ) {
     @GetMapping("")
     fun getPoemByKeyword(@RequestParam("keyword", required = false) keyword: String?): ModelAndView {
-        //TODO 后续改成分页
         val poems = poetryMapper.findByTitleOrAuthor(keyword)
         val modelAndView = ModelAndView("/poems")
         modelAndView.addObject("poems", poems)

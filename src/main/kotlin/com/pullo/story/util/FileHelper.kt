@@ -10,12 +10,4 @@ object FileHelper {
         val fileFolder = File(folderPath)
         return fileFolder.listFiles().toList()
     }
-
-    @JvmStatic
-    fun main(args: Array<String>) {
-        val aa = getFilesByFolder("/Users/liufucheng/work/study/chinese-poetry/json")
-        aa.forEach {
-            println(it.absoluteFile)
-        }
-    }
 }

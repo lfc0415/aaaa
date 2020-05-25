@@ -20,7 +20,7 @@
       )
     </if>
     order by like_count desc
-    limit 20
+    limit 100
   </select>
 
   <select id = "findByUuid" resultType = "com.pullo.story.model.entity.Poetry">
