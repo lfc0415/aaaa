@@ -1,11 +1,11 @@
 package com.pullo.story.config
 
-import com.pullo.story.filter.JWTAuthenticationFilter
 import com.pullo.story.filter.JWTAuthorizationFilter
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
 import org.springframework.http.HttpMethod
+import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -43,11 +43,15 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
             .antMatchers(HttpMethod.DELETE, "/tasks/**").hasRole("ADMIN") // 其他都放行了
             .anyRequest().permitAll()
             .and()
-            .addFilter(JWTAuthenticationFilter(authenticationManager()))
             .addFilter(JWTAuthorizationFilter(authenticationManager())) // 不需要session
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .exceptionHandling().authenticationEntryPoint(JWTAuthenticationEntryPoint())
+    }
+
+    @Bean("myAuthenticationManager")
+    override fun authenticationManagerBean(): AuthenticationManager {
+        return super.authenticationManagerBean();
     }
 
     @Bean
