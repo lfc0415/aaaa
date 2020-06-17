@@ -31,23 +31,18 @@ class JWTAuthenticationFilter(authenticationManager: AuthenticationManager) : Us
         response: HttpServletResponse
     ): Authentication? {
         // 从输入流中获取到登录的信息
-        return try {
-            val user = ObjectMapper().readValue(
-                request.inputStream,
-                User::class.java
+        val user = ObjectMapper().readValue(
+            request.inputStream,
+            User::class.java
+        )
+        rememberMeThreadLocal.set(user.rememberMe)
+        return _authenticationManager.authenticate(
+            UsernamePasswordAuthenticationToken(
+                user.account,
+                user.password,
+                ArrayList()
             )
-            rememberMeThreadLocal.set(user.rememberMe)
-            _authenticationManager.authenticate(
-                UsernamePasswordAuthenticationToken(
-                    user.account,
-                    user.password,
-                    ArrayList()
-                )
-            )
-        } catch (e: IOException) {
-            e.printStackTrace()
-            null
-        }
+        )
     }
 
     /**

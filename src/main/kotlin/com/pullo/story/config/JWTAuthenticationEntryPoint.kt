@@ -18,7 +18,7 @@ class JWTAuthenticationEntryPoint : AuthenticationEntryPoint {
         response.characterEncoding = "UTF-8"
         response.contentType = "application/json; charset=utf-8"
         response.status = HttpServletResponse.SC_FORBIDDEN
-        val reason = "统一处理，原因：" + authException.message
+        val reason = "auth failed：" + authException.message
         response.writer.write(ObjectMapper().writeValueAsString(reason))
     }
 }

@@ -23,7 +23,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 class SecurityConfig : WebSecurityConfigurerAdapter() {
     @Autowired
     @Qualifier("userDetailsServiceImpl")
-    private val userDetailsService: UserDetailsService? = null
+    private lateinit var userDetailsService: UserDetailsService
 
     @Bean
     fun bCryptPasswordEncoder(): BCryptPasswordEncoder {

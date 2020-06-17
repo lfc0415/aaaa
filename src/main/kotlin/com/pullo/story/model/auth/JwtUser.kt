@@ -11,10 +11,10 @@ class JwtUser : UserDetails {
     private var password: String? = null
     private var authorities: Collection<GrantedAuthority?>? = null
 
-    constructor() {}
+    constructor()
     /**
      * 写一个能直接使用user创建jwtUser的构造器
-      */
+     */
     constructor(user: User) {
         id = user.id
         username = user.username
