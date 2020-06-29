@@ -1,10 +1,10 @@
 package com.pullo.story.exception
 
 class PulloException : Exception {
-    private var statusCode: Int = PulloError.SERVER_INTERNAL_ERROR.statusCode
-    private var requestId: String? = null
-    private var errorCode: String? = null
-    private var meta: Map<String, Any>? = null
+    var statusCode: Int = PulloError.SERVER_INTERNAL_ERROR.statusCode
+    var requestId: String? = null
+    var errorCode: String? = null
+    var meta: Map<String, Any>? = null
 
     constructor() : super()
 
