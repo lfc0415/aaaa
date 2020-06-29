@@ -3,7 +3,7 @@ package com.pullo.story.exception
 import com.pullo.story.exception.ExceptionHandlerHelper.createErrorResponse
 import com.pullo.story.exception.ExceptionHandlerHelper.logException
 import com.pullo.story.exception.ExceptionHandlerHelper.logPulloException
-import com.pullo.story.log.Logging
+import com.pullo.story.logger.Logging
 import org.springframework.core.annotation.Order
 import org.springframework.dao.DataAccessException
 import org.springframework.http.HttpHeaders

@@ -1,6 +1,6 @@
 package com.pullo.story.exception
 
-import com.pullo.story.log.Logging
+import com.pullo.story.logger.Logging
 import io.undertow.server.HttpServerExchange
 import org.apache.logging.log4j.message.SimpleMessage
 import javax.servlet.http.HttpServletRequest
